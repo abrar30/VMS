@@ -1,4 +1,5 @@
 import { MaxLength, IsNotEmpty, IsString, IsEmpty } from 'class-validator';
+import { Customer } from 'src/customers/schemas/customer.schema';
 
 export class CreateVehicleDto {
   @IsString()

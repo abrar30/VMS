@@ -5,12 +5,15 @@ import { IVehicle } from './interfaces/vehicle.interface';
 import { CreateVehicleDto, UpdateVehicleDto } from './dto';
 import { Vehicle } from './schemas/vehicle.schema';
 import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
+import { CustomersService } from 'src/customers/customers.service';
+import { Customer } from 'src/customers/schemas/customer.schema';
 
 @Injectable()
 export class VehicleService {
   constructor(
     @InjectModel(Vehicle.name)
     private readonly vehiclenModel: Model<Vehicle>,
+    @InjectModel(Customer.name) private readonly customerModel: Model<Customer>,
   ) {}
 
   public async findAll(
@@ -38,8 +41,13 @@ export class VehicleService {
   }
 
   public async create(createVehicleDto: CreateVehicleDto): Promise<IVehicle> {
-    const vehicle = new this.vehiclenModel(createVehicleDto);
-    return await vehicle.save();
+    const vehicle = await new this.vehiclenModel(createVehicleDto).save();
+    const customer = await this.customerModel
+      .findById({ _id: vehicle.customers })
+      .exec();
+    customer.vehicles.push(vehicle);
+    await customer.save();
+    return vehicle;
   }
 
   public async update(

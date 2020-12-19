@@ -44,6 +44,7 @@ export class CustomersController {
   ) {
     try {
       const customer = await this.customersService.create(createCustomerDto);
+
       return res.status(HttpStatus.OK).json({
         message: 'Customer has been created successfully',
         customer,

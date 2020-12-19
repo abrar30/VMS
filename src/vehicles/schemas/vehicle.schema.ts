@@ -1,6 +1,7 @@
 import { Schema, Prop, SchemaFactory } from '@nestjs/mongoose';
-import { Document, Types } from 'mongoose';
-
+import { Document } from 'mongoose';
+import * as mongoose from 'mongoose';
+import { Customer } from 'src/customers/schemas/customer.schema';
 @Schema()
 export class Vehicle extends Document {
   @Prop()
@@ -15,7 +16,7 @@ export class Vehicle extends Document {
   @Prop()
   description: string;
 
-  @Prop({ type: Types.ObjectId, ref: 'Customer' })
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Customer' })
   customers: string;
 }
 

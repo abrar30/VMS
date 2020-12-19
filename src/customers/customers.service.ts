@@ -11,6 +11,7 @@ import { Vehicle } from '../vehicles/schemas/vehicle.schema';
 export class CustomersService {
   constructor(
     @InjectModel(Customer.name) private readonly customerModel: Model<Customer>,
+    @InjectModel(Vehicle.name) private readonly vehicleModel: Model<Vehicle>,
   ) {}
 
   public async findAll(
