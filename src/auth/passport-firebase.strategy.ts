@@ -20,7 +20,7 @@ export class FirebaseAuthStrategy extends Strategy {
 
     if (!options.extractor) {
       throw new Error(
-        '\n Extractor is not a function. You should provide an extractor. \n Read the docs: https://github.com/tfarras/nestjs-firebase-auth#readme',
+        '\n Extractor is not a function. You should provide an extractor',
       );
     }
 

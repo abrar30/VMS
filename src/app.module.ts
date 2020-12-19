@@ -4,8 +4,10 @@ import { ConfigModule, ConfigService } from 'nestjs-config';
 import * as path from 'path';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { AuthModule } from './auth/firbase.module';
 import { CustomersModule } from './customers/customers.module';
 import { VehicleModule } from './vehicles/vehicles.module';
+
 @Module({
   imports: [
     ConfigModule.load(
@@ -20,7 +22,7 @@ import { VehicleModule } from './vehicles/vehicles.module';
       }),
     }),
     /// firebase jwt-passwort
-
+    //  AuthModule,
     CustomersModule,
     VehicleModule,
   ],

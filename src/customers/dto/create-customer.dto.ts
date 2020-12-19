@@ -33,3 +33,11 @@ export class CreateCustomerDto {
   // @IsString()
   // readonly vehicles: string;
 }
+
+export class LoginCustomerDto {
+  @IsNotEmpty()
+  readonly email: string;
+
+  @IsNotEmpty()
+  readonly password: string;
+}

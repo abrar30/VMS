@@ -14,6 +14,9 @@ export class Customer extends Document {
   email: string;
 
   @Prop()
+  password: string;
+
+  @Prop()
   phone: string;
 
   @Prop()
@@ -27,3 +30,10 @@ export class Customer extends Document {
 }
 
 export const CustomerSchema = SchemaFactory.createForClass(Customer);
+
+// CustomerSchema.pre('save', async next => {
+//   const customer = this;
+//   if (th('password')) {
+//   }
+//   next();
+// });

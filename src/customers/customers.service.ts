@@ -1,11 +1,17 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  HttpException,
+  HttpStatus,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { ICustomer } from './interfaces/customer.interface';
-import { CreateCustomerDto, UpdateCustomerDto } from './dto';
+import { CreateCustomerDto, LoginCustomerDto, UpdateCustomerDto } from './dto';
 import { Customer } from './schemas/customer.schema';
 import { PaginationQueryDto } from '../common/dto/pagination-query.dto';
 import { Vehicle } from '../vehicles/schemas/vehicle.schema';
+import { comparePasswords } from 'src/auth/auth.service';
 
 @Injectable()
 export class CustomersService {
@@ -29,15 +35,14 @@ export class CustomersService {
     return test;
   }
 
-  public async findOne(customerId: string): Promise<Customer> {
+  public async findOne(email: string): Promise<Customer> {
     const customer = await this.customerModel
-      .findById({ _id: customerId })
-
+      .findOne({ email })
       .populate('vehicles')
       .exec();
 
     if (!customer) {
-      throw new NotFoundException(`Customer #${customerId} not found`);
+      throw new NotFoundException(`Customer #${email} not found`);
     }
 
     return customer;
@@ -69,5 +74,28 @@ export class CustomersService {
   public async remove(customerId: string): Promise<any> {
     const deletedCustomer = this.customerModel.findByIdAndRemove(customerId);
     return deletedCustomer;
+  }
+
+  async login({ email, password }: LoginCustomerDto): Promise<ICustomer> {
+    const customer = await this.customerModel
+      .findOne({ where: { email } })
+      .exec();
+
+    if (!customer) {
+      throw new HttpException('customer not found', HttpStatus.UNAUTHORIZED);
+    }
+
+    // compare passwords
+    const areEqual = await comparePasswords(customer.password, password);
+
+    if (!areEqual) {
+      throw new HttpException('Invalid credentials', HttpStatus.UNAUTHORIZED);
+    }
+
+    return customer;
+  }
+
+  async findByPayload({ email }: any): Promise<ICustomer> {
+    return await this.findOne(email);
   }
 }
