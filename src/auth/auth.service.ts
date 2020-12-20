@@ -37,7 +37,10 @@ export class AuthService {
     const expiresIn = process.env.EXPIRESIN;
 
     const customer: JwtPayload = { email };
-    const accessToken = this.jwtService.sign(customer);
+    const accessToken = this.jwtService.sign(customer, {
+      secret: process.env.SECRETKEY,
+      expiresIn,
+    });
     return {
       expiresIn,
       accessToken,
@@ -45,6 +48,6 @@ export class AuthService {
   }
 }
 
-export const comparePasswords = async (userPassword, currentPassword) => {
-  return await bcrypt.compare(currentPassword, userPassword);
+export const comparePasswords = async (customerPassword, currentPassword) => {
+  return await bcrypt.compare(currentPassword, customerPassword);
 };

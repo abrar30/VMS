@@ -8,4 +8,4 @@ import { FirebaseStrategy } from './firebase.strategy';
   exports: [FirebaseStrategy],
   controllers: [],
 })
-export class AuthModule {}
+export class FirebaseAuthModule {}

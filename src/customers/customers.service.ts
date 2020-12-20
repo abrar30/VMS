@@ -77,9 +77,7 @@ export class CustomersService {
   }
 
   async login({ email, password }: LoginCustomerDto): Promise<ICustomer> {
-    const customer = await this.customerModel
-      .findOne({ where: { email } })
-      .exec();
+    const customer = await this.customerModel.findOne({ email }).exec();
 
     if (!customer) {
       throw new HttpException('customer not found', HttpStatus.UNAUTHORIZED);

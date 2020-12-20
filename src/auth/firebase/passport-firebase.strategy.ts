@@ -2,7 +2,7 @@ import { Logger } from '@nestjs/common';
 import { JwtFromRequestFunction } from 'passport-jwt';
 import { Strategy } from 'passport-strategy';
 import { Request } from 'express';
-import { FirebaseAuthStrategyOptions } from './interface/firebase-auth.options';
+import { FirebaseAuthStrategyOptions } from '../interface/firebase-auth.options';
 import { UNAUTHORIZED, FIREBASE_AUTH } from './constants';
 import { FirebaseUser } from './firebaseUser.types';
 import * as admin from 'firebase-admin';

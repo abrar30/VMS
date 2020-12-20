@@ -7,34 +7,20 @@ import { Vehicle, VehicleSchema } from 'src/vehicles/schemas/vehicle.schema';
 import * as bcrypt from 'bcrypt';
 @Module({
   imports: [
-    MongooseModule.forFeatureAsync([
+    MongooseModule.forFeature([
       {
         name: Customer.name,
-
-        useFactory: () => {
-          const schema = CustomerSchema;
-          schema.pre<Customer>('save', async () => {
-            const user: any = this;
-            if (user.password) {
-              user.password = await bcrypt.hash(user.password, 10);
-            }
-          });
-          return schema;
-        },
+        schema: CustomerSchema,
       },
 
       {
         name: Vehicle.name,
-        useFactory: () => {
-          const schema = CustomerSchema;
-          // schema.pre('save', function() {
-          //  });
-          return schema;
-        },
+        schema: VehicleSchema,
       },
     ]),
   ],
   providers: [CustomersService],
   controllers: [CustomersController],
+  exports: [CustomersService],
 })
 export class CustomersModule {}
